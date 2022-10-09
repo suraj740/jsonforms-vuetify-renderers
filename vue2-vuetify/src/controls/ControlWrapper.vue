@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, CompType } from '../vue';
 import { Styles } from '../styles';
 
 export default defineComponent({
@@ -22,7 +22,7 @@ export default defineComponent({
     },
     styles: {
       required: true,
-      type: Object as PropType<Styles>,
+      type: Object as CompType<Styles, ObjectConstructor>,
     },
   },
 });

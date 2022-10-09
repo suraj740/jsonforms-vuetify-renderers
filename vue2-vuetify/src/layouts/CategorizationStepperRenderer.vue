@@ -12,7 +12,7 @@
           :step="index + 1"
           editable
         >
-          {{ visibleCategoryLabels[index] }}
+          {{ element.label }}
         </v-stepper-step>
 
         <v-stepper-content :key="`${layout.path}-${index}`" :step="index + 1">
@@ -61,13 +61,13 @@
       v-bind="vuetifyProps('v-stepper')"
     >
       <v-stepper-header>
-        <template v-for="(_, index) in visibleCategories">
+        <template v-for="(element, index) in visibleCategories">
           <v-stepper-step
             :key="`${layout.path}-${index}`"
             :step="index + 1"
             editable
           >
-            {{ visibleCategoryLabels[index] }}
+            {{ element.label }}
           </v-stepper-step>
           <v-divider
             v-if="index !== visibleCategories.length - 1"
@@ -136,16 +136,15 @@ import {
   Tester,
   isVisible,
   categorizationHasCategory,
-  deriveLabelForUISchemaElement,
 } from '@jsonforms/core';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref } from '../vue';
 import {
   DispatchRenderer,
   rendererProps,
   useJsonFormsLayout,
   RendererProps,
 } from '@jsonforms/vue';
-import { useAjv, useTranslator, useVuetifyLayout } from '../util';
+import { useAjv, useVuetifyLayout } from '../util';
 import {
   VStepper,
   VStepperHeader,
@@ -180,13 +179,11 @@ const layoutRenderer = defineComponent({
   setup(props: RendererProps<Layout>) {
     const activeCategory = ref(1);
     const ajv = useAjv();
-    const t = useTranslator();
 
     return {
       ...useVuetifyLayout(useJsonFormsLayout(props)),
       activeCategory,
       ajv,
-      t,
     };
   },
   computed: {
@@ -195,11 +192,6 @@ const layoutRenderer = defineComponent({
         (category: Category | Categorization) =>
           isVisible(category, this.layout.data, this.layout.path, this.ajv)
       );
-    },
-    visibleCategoryLabels(): string[] {
-      return this.visibleCategories.map((element) => {
-        return deriveLabelForUISchemaElement(element, this.t) ?? '';
-      });
     },
   },
 });

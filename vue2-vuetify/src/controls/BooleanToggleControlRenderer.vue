@@ -16,10 +16,7 @@
       :persistent-hint="persistentHint()"
       :required="control.required"
       :error-messages="control.errors"
-      :input-value="control.data"
       :value="control.data"
-      :true-value="true"
-      :false-value="false"
       v-bind="vuetifyProps('v-switch')"
       @change="onChange"
       @focus="isFocused = true"
@@ -37,7 +34,7 @@ import {
   optionIs,
   and,
 } from '@jsonforms/core';
-import { defineComponent } from 'vue';
+import { defineComponent } from '../vue';
 import {
   rendererProps,
   useJsonFormsControl,
@@ -57,10 +54,7 @@ const controlRenderer = defineComponent({
     ...rendererProps<ControlElement>(),
   },
   setup(props: RendererProps<ControlElement>) {
-    return useVuetifyControl(
-      useJsonFormsControl(props),
-      (newValue) => newValue || false
-    );
+    return useVuetifyControl(useJsonFormsControl(props));
   },
 });
 

@@ -17,7 +17,6 @@
       :required="control.required"
       :error-messages="control.errors"
       :indeterminate="control.data === undefined"
-      :input-value="control.data"
       :value="control.data"
       v-bind="vuetifyProps('v-checkbox')"
       @change="onChange"
@@ -34,7 +33,7 @@ import {
   rankWith,
   isBooleanControl,
 } from '@jsonforms/core';
-import { defineComponent } from 'vue';
+import { defineComponent } from '../vue';
 import {
   rendererProps,
   useJsonFormsControl,

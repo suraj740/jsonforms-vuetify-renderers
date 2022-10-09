@@ -2,7 +2,7 @@
   <div v-if="control.visible">
     <template v-if="delegateUISchema">
       <dispatch-renderer
-        :schema="control.schema"
+        :schema="subSchema"
         :uischema="delegateUISchema"
         :path="control.path"
         :enabled="control.enabled"
@@ -33,7 +33,9 @@ import {
   findMatchingUISchema,
   isAllOfControl,
   JsonFormsRendererRegistryEntry,
+  JsonSchema,
   rankWith,
+  resolveSubSchemas,
   UISchemaElement,
 } from '@jsonforms/core';
 import {
@@ -42,7 +44,7 @@ import {
   RendererProps,
   useJsonFormsAllOfControl,
 } from '@jsonforms/vue';
-import { defineComponent } from 'vue';
+import { defineComponent } from '../vue';
 import { useVuetifyControl } from '../util';
 
 const controlRenderer = defineComponent({
@@ -57,17 +59,23 @@ const controlRenderer = defineComponent({
     return useVuetifyControl(useJsonFormsAllOfControl(props));
   },
   computed: {
+    subSchema(): JsonSchema {
+      return resolveSubSchemas(
+        this.control.schema,
+        this.control.rootSchema,
+        'allOf'
+      );
+    },
     delegateUISchema(): UISchemaElement {
       return findMatchingUISchema(this.control.uischemas)(
-        this.control.schema,
+        this.subSchema,
         this.control.uischema.scope,
         this.control.path
       );
     },
     allOfRenderInfos(): CombinatorSubSchemaRenderInfo[] {
       return createCombinatorRenderInfos(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.control.schema.allOf!,
+        this.subSchema.allOf!,
         this.control.rootSchema,
         'allOf',
         this.control.uischema,

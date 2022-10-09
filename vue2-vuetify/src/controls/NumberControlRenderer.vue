@@ -20,7 +20,7 @@
       :error-messages="control.errors"
       :value="control.data"
       v-bind="vuetifyProps('v-text-field')"
-      @input="onChange"
+      @update:modelValue="onChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
     />
@@ -34,7 +34,7 @@ import {
   rankWith,
   isNumberControl,
 } from '@jsonforms/core';
-import { defineComponent } from 'vue';
+import { defineComponent } from '../vue';
 import {
   rendererProps,
   useJsonFormsControl,

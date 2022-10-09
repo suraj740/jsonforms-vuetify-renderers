@@ -8,7 +8,7 @@
     <v-hover v-slot="{ hover }">
       <v-select
         v-if="appliedOptions.autocomplete === false"
-        v-disabled-icon-focus
+        
         :id="control.id + '-input'"
         :class="styles.control.input"
         :disabled="!control.enabled"
@@ -31,7 +31,7 @@
       />
       <v-autocomplete
         v-else
-        v-disabled-icon-focus
+        
         :id="control.id + '-input'"
         :class="styles.control.input"
         :disabled="!control.enabled"
@@ -48,7 +48,7 @@
         item-text="label"
         item-value="value"
         v-bind="vuetifyProps('v-autocomplete')"
-        @input="onChange"
+        @update:modelValue="onChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
       />
@@ -63,7 +63,7 @@ import {
   rankWith,
   isEnumControl,
 } from '@jsonforms/core';
-import { defineComponent } from 'vue';
+import { defineComponent } from '../vue';
 import {
   rendererProps,
   useJsonFormsEnumControl,
@@ -82,9 +82,9 @@ const controlRenderer = defineComponent({
     VAutocomplete,
     VHover,
   },
-  directives: {
-    // DisabledIconFocus,
-  },
+  // directives: {
+  //   DisabledIconFocus,
+  // },
   props: {
     ...rendererProps<ControlElement>(),
   },

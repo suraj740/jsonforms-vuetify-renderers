@@ -7,7 +7,7 @@
   >
     <v-hover v-slot="{ hover }">
       <v-textarea
-        v-disabled-icon-focus
+        
         :id="control.id + '-input'"
         :class="styles.control.input"
         :disabled="!control.enabled"
@@ -30,7 +30,7 @@
         :clearable="hover"
         multi-line
         v-bind="vuetifyProps('v-textarea')"
-        @input="onChange"
+        @update:modelValue="onChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
       />
@@ -47,7 +47,7 @@ import {
   isMultiLineControl,
   and,
 } from '@jsonforms/core';
-import { defineComponent } from 'vue';
+import { defineComponent } from '../vue';
 import {
   rendererProps,
   useJsonFormsControl,
@@ -65,9 +65,9 @@ const controlRenderer = defineComponent({
     VHover,
     VTextarea,
   },
-  directives: {
-    // DisabledIconFocus,
-  },
+  // directives: {
+  //   DisabledIconFocus,
+  // },
   props: {
     ...rendererProps<ControlElement>(),
   },

@@ -8,7 +8,7 @@
     <v-hover v-slot="{ hover }">
       <v-combobox
         v-if="suggestions !== undefined"
-        v-disabled-icon-focus
+        
         :id="control.id + '-input'"
         :class="styles.control.input"
         :disabled="!control.enabled"
@@ -32,13 +32,13 @@
         :items="suggestions"
         hide-no-data
         v-bind="vuetifyProps('v-combobox')"
-        @input="onChange"
+        @update:modelValue="onChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
       />
       <v-text-field
         v-else
-        v-disabled-icon-focus
+        
         :id="control.id + '-input'"
         :class="styles.control.input"
         :disabled="!control.enabled"
@@ -49,7 +49,8 @@
         :persistent-hint="persistentHint()"
         :required="control.required"
         :error-messages="control.errors"
-        :value="control.data"
+        :model-value="control.data"
+        variant="outlined"
         :maxlength="
           appliedOptions.restrict ? control.schema.maxLength : undefined
         "
@@ -60,7 +61,7 @@
         "
         :clearable="hover"
         v-bind="vuetifyProps('v-text-field')"
-        @input="onChange"
+        @update:modelValue="onChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
       />
@@ -75,7 +76,7 @@ import {
   rankWith,
   isStringControl,
 } from '@jsonforms/core';
-import { defineComponent } from 'vue';
+import { defineComponent } from '../vue';
 import {
   rendererProps,
   useJsonFormsControl,
@@ -97,9 +98,9 @@ const controlRenderer = defineComponent({
     VTextField,
     VCombobox,
   },
-  directives: {
-    // DisabledIconFocus,
-  },
+  // directives: {
+  //   DisabledIconFocus,
+  // },
   props: {
     ...rendererProps<ControlElement>(),
   },

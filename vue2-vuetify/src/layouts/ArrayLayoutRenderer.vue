@@ -1,69 +1,53 @@
 <template>
-  <v-card v-if="control.visible" :class="styles.arrayList.root">
+  <v-card v-if="control.visible" :class="styles.arrayList.root" elevation="0">
     <v-card-title>
       <v-toolbar flat :class="styles.arrayList.toolbar">
         <v-toolbar-title :class="styles.arrayList.label">{{
           computedLabel
         }}</v-toolbar-title>
         <validation-icon
-          v-if="
-            control.childErrors.length > 0 &&
-            !appliedOptions.hideArraySummaryValidation
-          "
+          v-if="control.childErrors.length > 0"
           :errors="control.childErrors"
-          :class="styles.arrayList.validationIcon"
         />
         <v-spacer></v-spacer>
-        <slot
-          name="toolbar-elements"
-          :labels="translatedLabels"
-          :addClass="styles.arrayList.addButton"
-          :addDisabled="addDisabled"
-          :addClick="addButtonClick"
-          :control="control"
-          :appliedOptions="appliedOptions"
-          :styles="styles"
-        >
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on: onTooltip }">
-              <v-btn
-                fab
-                text
-                elevation="0"
-                small
-                :aria-label="translatedLabels.add"
-                v-on="onTooltip"
-                :class="styles.arrayList.addButton"
-                :disabled="addDisabled"
-                @click="addButtonClick"
-              >
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
-            </template>
-            {{ translatedLabels.add }}
-          </v-tooltip>
-        </slot>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on: onTooltip }">
+            <v-btn
+              fab
+              text
+              elevation="0"
+              small
+              :aria-label="`Add to ${control.label}`"
+              v-on="onTooltip"
+              :class="styles.arrayList.addButton"
+              :disabled="
+                !control.enabled ||
+                (appliedOptions.restrict &&
+                  arraySchema !== undefined &&
+                  arraySchema.maxItems !== undefined &&
+                  control.data.length >= arraySchema.maxItems)
+              "
+              @click="addButtonClick"
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </template>
+          {{ `Add to ${control.label}` }}
+        </v-tooltip>
       </v-toolbar>
     </v-card-title>
     <v-card-text>
-      <v-container
-        justify-space-around
-        align-content-center
-        :class="styles.arrayList.container"
-      >
+      <v-container justify-space-around align-content-center>
         <v-row justify="center">
-          <v-expansion-panels
-            accordion
-            v-bind="expansionPanelsProps"
-            v-model="currentlyExpanded"
-          >
+          <v-expansion-panels accordion focusable v-model="currentlyExpanded">
             <v-expansion-panel
-              v-for="(_element, index) in control.data"
+              v-for="(element, index) in control.data"
               :key="`${control.path}-${index}`"
               :class="styles.arrayList.item"
             >
-              <v-expansion-panel-title :class="styles.arrayList.itemHeader">
-                <v-container py-0 :class="styles.arrayList.itemContainer">
+              <div :class="styles.arrayList.itemHeader">
+                <v-container py-0>
                   <v-row
                     :style="`display: grid; grid-template-columns: ${
                       !hideAvatar ? 'min-content' : ''
@@ -73,14 +57,14 @@
                         : ''
                     }`"
                   >
-                    <v-col v-if="!hideAvatar" align-self="center" class="pl-0">
+                    <v-col v-if="!hideAvatar" align-self="center" px-0>
                       <validation-badge
                         overlap
                         bordered
                         :errors="childErrors(index)"
                       >
-                        <v-avatar size="40" aria-label="Index" color="primary">
-                          <span class="primary--text text--lighten-5">{{
+                        <v-avatar size="40" aria-label="Index" color="primary"
+                          ><span class="primary--text text--lighten-5">{{
                             index + 1
                           }}</span></v-avatar
                         >
@@ -89,7 +73,7 @@
 
                     <v-col
                       align-self="center"
-                      :class="`pl-0 text-truncate ${styles.arrayList.itemLabel}`"
+                      :class="`text-truncate ${styles.arrayList.itemLabel}`"
                       >{{ childLabelForIndex(index) }}</v-col
                     >
                     <v-col
@@ -105,7 +89,7 @@
                             elevation="0"
                             small
                             class="v-expansion-panel-header__icon"
-                            :aria-label="translatedLabels.moveUp"
+                            aria-label="Move up"
                             :disabled="index <= 0 || !control.enabled"
                             :class="styles.arrayList.itemMoveUp"
                             @click.native="moveUpClick($event, index)"
@@ -113,7 +97,7 @@
                             <v-icon class="notranslate">mdi-arrow-up</v-icon>
                           </v-btn>
                         </template>
-                        {{ translatedLabels.moveUp }}
+                        Move Up
                       </v-tooltip>
                     </v-col>
                     <v-col
@@ -129,7 +113,7 @@
                             elevation="0"
                             small
                             class="v-expansion-panel-header__icon"
-                            :aria-label="translatedLabels.moveDown"
+                            aria-label="Move down"
                             :disabled="
                               index >= control.data.length - 1 ||
                               !control.enabled
@@ -140,7 +124,7 @@
                             <v-icon class="notranslate">mdi-arrow-down</v-icon>
                           </v-btn>
                         </template>
-                        {{ translatedLabels.moveDown }}
+                        Move Down
                       </v-tooltip>
                     </v-col>
                     <v-col align-self="center">
@@ -153,7 +137,7 @@
                             elevation="0"
                             small
                             class="v-expansion-panel-header__icon"
-                            :aria-label="translatedLabels.delete"
+                            aria-label="Delete"
                             :class="styles.arrayList.itemDelete"
                             :disabled="
                               !control.enabled ||
@@ -167,13 +151,13 @@
                             <v-icon class="notranslate">mdi-delete</v-icon>
                           </v-btn>
                         </template>
-                        {{ translatedLabels.delete }}
+                        Delete
                       </v-tooltip>
                     </v-col>
                   </v-row>
                 </v-container>
-              </v-expansion-panel-title>
-              <v-expansion-panel-text :class="styles.arrayList.itemContent">
+              </div>
+              <div :class="styles.arrayList.itemContent">
                 <dispatch-renderer
                   :schema="control.schema"
                   :uischema="foundUISchema"
@@ -182,28 +166,15 @@
                   :renderers="control.renderers"
                   :cells="control.cells"
                 />
-              </v-expansion-panel-text>
+              </div>
             </v-expansion-panel>
           </v-expansion-panels>
         </v-row>
       </v-container>
       <v-container v-if="noData" :class="styles.arrayList.noData">
         No data
-      </v-container>
-    </v-card-text>
-    <v-card-actions v-if="$slots.actions" class="pb-8">
-      <slot
-        name="actions"
-        :labels="translatedLabels"
-        :addClass="styles.arrayList.addButton"
-        :addDisabled="addDisabled"
-        :addClick="addButtonClick"
-        :control="control"
-        :appliedOptions="appliedOptions"
-        :styles="styles"
-      >
-      </slot>
-    </v-card-actions>
+      </v-container></v-card-text
+    >
     <v-dialog
       :value="suggestToDelete !== null"
       max-width="600"
@@ -212,28 +183,24 @@
     >
       <v-card>
         <v-card-title class="text-h5">
-          {{ translatedLabels.dialogTitle }}
+          Delete {{ childLabelForIndex(suggestToDelete) || 'element' }}?
         </v-card-title>
 
-        <v-card-text> {{ translatedLabels.dialogText }} </v-card-text>
+        <v-card-text> The element will be deleted. </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn text @click="suggestToDelete = null">
-            {{ translatedLabels.dialogCancel }}</v-btn
-          >
+          <v-btn text @click="suggestToDelete = null"> Cancel </v-btn>
           <v-btn
             text
             ref="confirm"
             @click="
-              removeItemsClick(
-                suggestToDelete === null ? null : [suggestToDelete]
-              );
+              removeItemsClick([suggestToDelete]);
               suggestToDelete = null;
             "
           >
-            {{ translatedLabels.dialogConfirm }}
+            Delete
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -254,21 +221,15 @@ import {
   Resolve,
   JsonSchema,
   getControlPath,
-  getI18nKey,
 } from '@jsonforms/core';
-import { defineComponent } from 'vue';
+import { defineComponent } from '../vue';
 import {
   DispatchRenderer,
   rendererProps,
   useJsonFormsArrayControl,
   RendererProps,
 } from '@jsonforms/vue';
-import {
-  useNested,
-  useVuetifyArrayControl,
-  useTranslator,
-  i18nDefaultMessages,
-} from '../util';
+import { useNested, useVuetifyArrayControl } from '../util';
 import {
   VCard,
   VCardActions,
@@ -287,15 +248,10 @@ import {
   VSpacer,
   VExpansionPanels,
   VExpansionPanel,
-  VExpansionPanelTitle,
-  VExpansionPanelText,
 } from 'vuetify/components';
 import { ValidationIcon, ValidationBadge } from '../controls/components/index';
 import { ErrorObject } from 'ajv';
-import { computed, ref } from 'vue';
-import merge from 'lodash/merge';
-
-type I18nArrayLayoutKey = keyof typeof i18nDefaultMessages.arraylayout;
+import { ref } from '../vue';
 
 const controlRenderer = defineComponent({
   name: 'array-layout-renderer',
@@ -317,8 +273,6 @@ const controlRenderer = defineComponent({
     VSpacer,
     VExpansionPanels,
     VExpansionPanel,
-    VExpansionPanelTitle,
-    VExpansionPanelText,
     VContainer,
     ValidationIcon,
     ValidationBadge,
@@ -328,37 +282,13 @@ const controlRenderer = defineComponent({
   },
   setup(props: RendererProps<ControlElement>) {
     const control = useVuetifyArrayControl(useJsonFormsArrayControl(props));
-    const currentlyExpanded = ref<null | number>(
-      control.appliedOptions.value.initCollapsed ? null : 0
-    );
-    const expansionPanelsProps = computed(() =>
-      merge(
-        { flat: false, focusable: true },
-        control.vuetifyProps('v-expansion-panels')
-      )
-    );
+    const currentlyExpanded = ref<null | number>(null);
     const suggestToDelete = ref<null | number>(null);
     // indicate to our child renderers that we are increasing the "nested" level
     useNested('array');
-    const t = useTranslator();
-    return {
-      ...control,
-      currentlyExpanded,
-      expansionPanelsProps,
-      suggestToDelete,
-      t,
-    };
+    return { ...control, currentlyExpanded, suggestToDelete };
   },
   computed: {
-    addDisabled(): boolean {
-      return (
-        !this.control.enabled ||
-        (this.appliedOptions.restrict &&
-          this.arraySchema !== undefined &&
-          this.arraySchema.maxItems !== undefined &&
-          this.control.data.length >= this.arraySchema.maxItems)
-      );
-    },
     noData(): boolean {
       return !this.control.data || this.control.data.length === 0;
     },
@@ -383,29 +313,6 @@ const controlRenderer = defineComponent({
     hideAvatar(): boolean {
       return !!this.appliedOptions.hideAvatar;
     },
-    translatedLabels(): { [key in I18nArrayLayoutKey]: string } {
-      const elementToDeleteText = this.childLabelForIndex(this.suggestToDelete);
-      return {
-        add: this.translateLabel('add'),
-        delete: this.translateLabel('delete'),
-        moveUp: this.translateLabel('moveUp'),
-        moveDown: this.translateLabel('moveDown'),
-        dialogTitle: this.translateLabel(
-          'dialogTitle',
-          {
-            element: elementToDeleteText,
-          },
-          (message) =>
-            message.replace(
-              /\{\{\s?element\s?\}\}/,
-              elementToDeleteText || 'element'
-            )
-        ),
-        dialogText: this.translateLabel('dialogText'),
-        dialogCancel: this.translateLabel('dialogCancel'),
-        dialogConfirm: this.translateLabel('dialogConfirm'),
-      };
-    },
   },
   methods: {
     composePaths,
@@ -427,10 +334,8 @@ const controlRenderer = defineComponent({
       event.stopPropagation();
       this.moveDown?.(this.control.path, toMove)();
     },
-    removeItemsClick(toDelete: number[] | null): void {
-      if (toDelete !== null) {
-        this.removeItems?.(this.control.path, toDelete)();
-      }
+    removeItemsClick(toDelete: number[]): void {
+      this.removeItems?.(this.control.path, toDelete)();
     },
     childErrors(index: number): ErrorObject[] {
       return this.control.childErrors.filter((e) => {
@@ -439,34 +344,6 @@ const controlRenderer = defineComponent({
           this.composePaths(this.control.path, `${index}`)
         );
       });
-    },
-    translateLabel(
-      labelType: I18nArrayLayoutKey,
-      additionalContext: Record<string, unknown> | undefined = undefined,
-      transformMessage: (message: string) => string = (text) => text
-    ): string {
-      const i18nKey = getI18nKey(
-        this.arraySchema,
-        this.control.uischema,
-        this.control.path,
-        labelType
-      );
-      const context = {
-        schema: this.control.schema,
-        uischema: this.control.uischema,
-        path: this.control.path,
-        data: this.$data,
-        ...additionalContext,
-      };
-      const translation = this.t(i18nKey, undefined, context);
-      if (translation !== undefined) {
-        return translation;
-      }
-      return this.t(
-        `arraylayout.${labelType}`,
-        transformMessage(i18nDefaultMessages.arraylayout[labelType]),
-        context
-      );
     },
   },
 });
@@ -479,11 +356,8 @@ export const entry: JsonFormsRendererRegistryEntry = {
 };
 </script>
 
-<style scoped>
-/* .notranslate {
+<!-- <style scoped>
+.notranslate {
   transform: none !important;
 }
-::v-deep .v-toolbar__content {
-  padding-left: 0;
-} */
-</style>
+</style> -->

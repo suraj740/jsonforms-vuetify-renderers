@@ -7,7 +7,7 @@
   >
     <v-hover v-slot="{ hover }">
       <v-combobox
-        v-disabled-icon-focus
+        
         :id="control.id + '-input'"
         :class="styles.control.input"
         :disabled="!control.enabled"
@@ -48,7 +48,7 @@ import {
   schemaMatches,
   JsonSchema,
 } from '@jsonforms/core';
-import { defineComponent } from 'vue';
+import { defineComponent } from '../vue';
 import {
   rendererProps,
   useJsonFormsControl,
@@ -57,7 +57,7 @@ import {
 import { default as ControlWrapper } from './ControlWrapper.vue';
 import { useVuetifyControl } from '../util';
 import { VHover, VCombobox } from 'vuetify/components';
-// import { DisabledIconFocus } from './directives';
+//import { DisabledIconFocus } from './directives';
 
 const controlRenderer = defineComponent({
   name: 'anyof-string-or-enum-control-renderer',
@@ -66,9 +66,9 @@ const controlRenderer = defineComponent({
     VHover,
     VCombobox,
   },
-  directives: {
-    // DisabledIconFocus,
-  },
+  // directives: {
+  //   DisabledIconFocus,
+  // },
   props: {
     ...rendererProps<ControlElement>(),
   },

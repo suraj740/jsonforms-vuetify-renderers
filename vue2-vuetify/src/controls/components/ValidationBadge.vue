@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, CompType } from '../../vue';
 import { VBadge, VTooltip } from 'vuetify/components';
 import { ErrorObject } from 'ajv';
 import findIndex from 'lodash/findIndex';
@@ -50,7 +50,7 @@ export default defineComponent({
   props: {
     errors: {
       required: true,
-      type: Array as PropType<ErrorObject[]>,
+      type: Array as CompType<ErrorObject, ArrayConstructor>,
     },
     bordered: {
       type: Boolean,

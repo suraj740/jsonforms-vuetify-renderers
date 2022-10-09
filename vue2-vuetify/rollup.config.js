@@ -4,8 +4,6 @@ import typescript from 'rollup-plugin-typescript2';
 import resolve from '@rollup/plugin-node-resolve';
 import cleanup from 'rollup-plugin-cleanup';
 import visualizer from 'rollup-plugin-visualizer';
-// import scss from 'rollup-plugin-scss';
-import css from 'rollup-plugin-css-only';
 
 import packageJson from './package.json';
 
@@ -44,7 +42,9 @@ const buildFormats = [
       }),
       typescript({
         emitDeclarationOnly: true,
-        tsconfig: 'tsconfig.compile.json',
+        tsconfigOverride: {
+          target: 'ES5',
+        },
       }),
       babel({
         exclude: 'node_modules/**',
@@ -53,7 +53,6 @@ const buildFormats = [
       }),
       cleanup({ extensions: ['js', 'ts', 'jsx', 'tsx', 'vue'] }),
       visualizer(),
-      css(),
     ],
   },
   {
@@ -81,7 +80,6 @@ const buildFormats = [
         tsconfigOverride: {
           target: 'ES5',
         },
-        tsconfig: 'tsconfig.compile.json',
       }),
       babel({
         exclude: 'node_modules/**',
@@ -89,7 +87,6 @@ const buildFormats = [
         babelHelpers: 'bundled',
       }),
       cleanup({ extensions: ['js', 'ts', 'jsx', 'tsx', 'vue'] }),
-      css(),
     ],
   },
 ];

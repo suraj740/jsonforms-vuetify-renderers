@@ -12,9 +12,8 @@ import merge from 'lodash/merge';
 import get from 'lodash/get';
 import isPlainObject from 'lodash/isPlainObject';
 import { useStyles } from '../styles';
-import { computed, ComputedRef, inject, ref } from 'vue';
+import { computed, ComputedRef, inject, provide, ref } from '../vue';
 import Ajv from 'ajv';
-import { provide } from 'vue';
 
 const useControlAppliedOptions = <I extends { control: any }>(input: I) => {
   return computed(() =>
@@ -37,31 +36,6 @@ const useComputedLabel = <I extends { control: any }>(
       !!appliedOptions.value?.hideRequiredAsterisk
     );
   });
-};
-
-/**
- * Adds styles, appliedOptions and vuetifyProps
- */
-export const useVuetifyLabel = <I extends { label: any }>(input: I) => {
-  const styles = useStyles(input.label.value.uischema);
-  const appliedOptions = computed(() =>
-    merge(
-      {},
-      cloneDeep(input.label.value.config),
-      cloneDeep(input.label.value.uischema.options)
-    )
-  );
-  const vuetifyProps = (path: string) => {
-    const props = get(appliedOptions.value?.vuetify, path);
-
-    return props && isPlainObject(props) ? props : {};
-  };
-  return {
-    ...input,
-    appliedOptions,
-    vuetifyProps,
-    styles,
-  };
 };
 
 /**
@@ -151,13 +125,13 @@ export const useTranslator = () => {
  * Adds styles and appliedOptions
  */
 export const useVuetifyLayout = <I extends { layout: any }>(input: I) => {
-  const appliedOptions = computed(() => {
-    return merge(
+  const appliedOptions = computed(() =>
+    merge(
       {},
       cloneDeep(input.layout.value.config),
       cloneDeep(input.layout.value.uischema.options)
-    );
-  });
+    )
+  );
 
   const vuetifyProps = (path: string) => {
     const props = get(appliedOptions.value?.vuetify, path);
@@ -183,16 +157,7 @@ export const useVuetifyArrayControl = <I extends { control: any }>(
 
   const computedLabel = useComputedLabel(input, appliedOptions);
 
-  const vuetifyProps = (path: string) => {
-    const props = get(appliedOptions.value?.vuetify, path);
-
-    return props && isPlainObject(props) ? props : {};
-  };
-
-  const childLabelForIndex = (index: number | null) => {
-    if (index === null) {
-      return '';
-    }
+  const childLabelForIndex = (index: number) => {
     const childLabelProp =
       input.control.value.uischema.options?.childLabelProp ??
       getFirstPrimitiveProp(input.control.value.schema);
@@ -218,7 +183,6 @@ export const useVuetifyArrayControl = <I extends { control: any }>(
     appliedOptions,
     childLabelForIndex,
     computedLabel,
-    vuetifyProps,
   };
 };
 

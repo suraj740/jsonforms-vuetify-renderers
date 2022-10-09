@@ -11,7 +11,7 @@
 <script lang="ts">
 import { Generate, JsonSchema, Layout, UISchemaElement } from '@jsonforms/core';
 import omit from 'lodash/omit';
-import { PropType, defineComponent } from 'vue';
+import { CompType, defineComponent } from '../../vue';
 import { DispatchRenderer } from '@jsonforms/vue';
 
 interface CombinatorProps {
@@ -27,11 +27,11 @@ export default defineComponent({
   },
   props: {
     schema: {
-      type: Object as PropType<JsonSchema>,
+      type: Object as CompType<JsonSchema, ObjectConstructor>,
       required: true,
     },
     combinatorKeyword: {
-      type: String as PropType<'oneOf' | 'anyOf'>,
+      type: String as CompType<'oneOf' | 'anyOf', StringConstructor>,
       required: true,
     },
     path: {

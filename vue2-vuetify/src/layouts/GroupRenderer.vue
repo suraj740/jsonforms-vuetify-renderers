@@ -7,10 +7,10 @@
     v-bind="vuetifyProps('v-card')"
   >
     <v-card-title
-      v-if="layout.label"
+      v-if="layout.uischema.label"
       :class="styles.group.label"
       v-bind="vuetifyProps('v-card-title')"
-      >{{ layout.label }}</v-card-title
+      >{{ layout.uischema.label }}</v-card-title
     >
 
     <v-card-text
@@ -40,7 +40,7 @@ import {
   isLayout,
   uiTypeIs,
 } from '@jsonforms/core';
-import { defineComponent } from 'vue';
+import { defineComponent } from '../vue';
 import {
   DispatchRenderer,
   rendererProps,
@@ -93,19 +93,16 @@ export const entry: JsonFormsRendererRegistryEntry = {
 </script>
 
 <!-- Default styles for the 'nested' feature -->
-<style>
-
-
-/* .group.group-bare {
-    border: 0;
+<!-- <style>
+.group.group-bare {
+  border: 0;
 }
 .group-bare > .group-label,
 .group-bare > .group-item {
-    padding-right: 0;
+  padding-right: 0;
 }
 .group-align-left > .group-label,
 .group-align-left > .group-item {
-    padding-left: 0;
-} */
-
-</style>
+  padding-left: 0;
+}
+</style> -->

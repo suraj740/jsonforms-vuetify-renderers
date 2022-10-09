@@ -11,10 +11,10 @@
           vertical
         >
           <v-tab
-            v-for="(_, index) in visibleCategories"
+            v-for="(element, index) in visibleCategories"
             :key="`${layout.path}-${index}`"
           >
-            {{ visibleCategoryLabels[index] }}
+            {{ element.label }}
           </v-tab>
         </v-tabs>
       </v-col>
@@ -43,21 +43,20 @@
     <v-row v-else v-bind="vuetifyProps('v-row')">
       <v-tabs v-model="activeCategory" v-bind="vuetifyProps('v-tabs')">
         <v-tab
-          v-for="(_, index) in visibleCategories"
+          v-for="(element, index) in visibleCategories"
           :key="`${layout.path}-${index}`"
         >
-          {{ visibleCategoryLabels[index] }}
+          {{ element.label }}
         </v-tab>
       </v-tabs>
 
-      <v-window
+      <v-tabs-items
         v-model="activeCategory"
         v-bind="vuetifyProps('v-tabs-items')"
       >
-        <v-window-item
+        <v-tab-item
           v-for="(element, index) in visibleCategories"
           :key="`${layout.path}-${index}`"
-          :value="`${layout.path}-${index}`"
         >
           <dispatch-renderer
             :schema="layout.schema"
@@ -67,8 +66,8 @@
             :renderers="layout.renderers"
             :cells="layout.cells"
           />
-        </v-window-item>
-      </v-window>
+        </v-tab-item>
+      </v-tabs-items>
     </v-row>
   </v-container>
 </template>
@@ -85,22 +84,21 @@ import {
   Tester,
   isVisible,
   categorizationHasCategory,
-  deriveLabelForUISchemaElement,
 } from '@jsonforms/core';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref } from '../vue';
 import {
   DispatchRenderer,
   rendererProps,
   useJsonFormsLayout,
   RendererProps,
 } from '@jsonforms/vue';
-import { useAjv, useTranslator, useVuetifyLayout } from '../util';
+import { useAjv, useVuetifyLayout } from '../util';
 import {
   VContainer,
   VTabs,
   VTab,
-  VWindow,
-  VWindowItem,
+  VTabsItems,
+  VTabItem,
   VRow,
   VCol,
 } from 'vuetify/components';
@@ -112,8 +110,8 @@ const layoutRenderer = defineComponent({
     VContainer,
     VTabs,
     VTab,
-    VWindow,
-    VWindowItem,
+    VTabsItems,
+    VTabItem,
     VRow,
     VCol,
   },
@@ -123,12 +121,11 @@ const layoutRenderer = defineComponent({
   setup(props: RendererProps<Layout>) {
     const activeCategory = ref(0);
     const ajv = useAjv();
-    const t = useTranslator();
+
     return {
       ...useVuetifyLayout(useJsonFormsLayout(props)),
       activeCategory,
       ajv,
-      t,
     };
   },
   computed: {
@@ -137,11 +134,6 @@ const layoutRenderer = defineComponent({
         (category: Category | Categorization) =>
           isVisible(category, this.layout.data, this.layout.path, this.ajv)
       );
-    },
-    visibleCategoryLabels(): string[] {
-      return this.visibleCategories.map((element) => {
-        return deriveLabelForUISchemaElement(element, this.t) ?? '';
-      });
     },
   },
 });

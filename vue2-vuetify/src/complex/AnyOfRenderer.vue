@@ -1,7 +1,7 @@
 <template>
   <div v-if="control.visible">
     <combinator-properties
-      :schema="control.schema"
+      :schema="subSchema"
       combinatorKeyword="anyOf"
       :path="path"
     />
@@ -15,8 +15,8 @@
       </v-tab>
     </v-tabs>
 
-    <v-window v-model="selectedIndex">
-      <v-window-item
+    <v-tabs-items v-model="selectedIndex">
+      <v-tab-item
         v-for="(anyOfRenderInfo, anyOfIndex) in anyOfRenderInfos"
         :key="`${control.path}-${anyOfIndex}`"
       >
@@ -27,10 +27,9 @@
           :path="control.path"
           :renderers="control.renderers"
           :cells="control.cells"
-          :enabled="control.enabled"
         />
-      </v-window-item>
-    </v-window>
+      </v-tab-item>
+    </v-tabs-items>
   </div>
 </template>
 
@@ -41,7 +40,9 @@ import {
   createCombinatorRenderInfos,
   isAnyOfControl,
   JsonFormsRendererRegistryEntry,
+  JsonSchema,
   rankWith,
+  resolveSubSchemas,
 } from '@jsonforms/core';
 import {
   DispatchRenderer,
@@ -49,8 +50,8 @@ import {
   RendererProps,
   useJsonFormsAnyOfControl,
 } from '@jsonforms/vue';
-import { VTabs, VTab, VWindow, VWindowItem } from 'vuetify/components';
-import { defineComponent, ref } from 'vue';
+import { VTabs, VTab, VTabsItems, VTabItem } from 'vuetify/components';
+import { defineComponent, ref } from '../vue';
 import { useVuetifyControl } from '../util';
 import { CombinatorProperties } from './components';
 
@@ -61,8 +62,8 @@ const controlRenderer = defineComponent({
     CombinatorProperties,
     VTabs,
     VTab,
-    VWindow,
-    VWindowItem,
+    VTabsItems,
+    VTabItem,
   },
   props: {
     ...rendererProps<ControlElement>(),
@@ -78,10 +79,16 @@ const controlRenderer = defineComponent({
     };
   },
   computed: {
+    subSchema(): JsonSchema {
+      return resolveSubSchemas(
+        this.control.schema,
+        this.control.rootSchema,
+        'anyOf'
+      );
+    },
     anyOfRenderInfos(): CombinatorSubSchemaRenderInfo[] {
       return createCombinatorRenderInfos(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.control.schema.anyOf!,
+        this.subSchema.anyOf!,
         this.control.rootSchema,
         'anyOf',
         this.control.uischema,

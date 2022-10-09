@@ -40,7 +40,7 @@
     <v-card-text>
       <v-container justify-space-around align-content-center>
         <v-row justify="center">
-          <v-table class="array-container flex">
+          <table class="array-container flex">
             <thead v-if="control.schema.type === 'object'">
               <tr>
                 <th
@@ -160,7 +160,7 @@
                 </td>
               </tr>
             </tbody>
-          </v-table>
+          </table>
         </v-row>
       </v-container>
       <v-container v-if="noData" :class="styles.arrayList.noData">
@@ -184,7 +184,7 @@ import {
   Resolve,
 } from '@jsonforms/core';
 import startCase from 'lodash/startCase';
-import { defineComponent } from 'vue';
+import { defineComponent } from '../vue';
 import {
   DispatchCell,
   DispatchRenderer,
@@ -207,7 +207,6 @@ import {
   VBtn,
   VAvatar,
   VSpacer,
-  VTable,
 } from 'vuetify/components';
 import { ValidationIcon, ValidationBadge } from '../controls/components/index';
 
@@ -231,7 +230,6 @@ const controlRenderer = defineComponent({
     VContainer,
     ValidationIcon,
     ValidationBadge,
-    VTable,
   },
   props: {
     ...rendererProps<ControlElement>(),
@@ -306,9 +304,8 @@ export const entry: JsonFormsRendererRegistryEntry = {
 };
 </script>
 
-<style scoped>
-
-/* .fixed-cell {
+<!-- <style scoped>
+.fixed-cell {
   width: 150px;
   height: 50px;
   padding-left: 0 !important;
@@ -331,5 +328,5 @@ export const entry: JsonFormsRendererRegistryEntry = {
 .array-container tbody tr td .container {
   padding: 0;
   margin: 0;
-} */
-</style>
+}
+</style> -->

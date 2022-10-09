@@ -4,11 +4,11 @@ module.exports = {
     node: true,
   },
   extends: [
-    // 'plugin:vue/essential',
+    'plugin:vue/essential',
     'eslint:recommended',
     '@vue/typescript/recommended',
-    // '@vue/prettier',
-    // '@vue/prettier/@typescript-eslint',
+    '@vue/prettier',
+    '@vue/prettier/@typescript-eslint',
   ],
   parserOptions: {
     ecmaVersion: 2020,
@@ -20,15 +20,4 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
-  overrides: [
-    {
-      files: [
-        '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)',
-      ],
-      env: {
-        jest: true,
-      },
-    },
-  ],
 };

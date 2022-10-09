@@ -6,5 +6,5 @@ import { entry as labelRendererEntry } from './LabelRenderer.vue';
 
 export const additionalRenderers = [
   labelRendererEntry,
-  //   listWithDetailRendererEntry,
+//  listWithDetailRendererEntry,
 ];
