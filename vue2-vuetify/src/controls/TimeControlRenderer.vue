@@ -43,7 +43,7 @@
             <template v-slot:activator="{ on: onMenu }">
               <v-icon v-on="onMenu" tabindex="-1">{{ pickerIcon }}</v-icon>
             </template>
-            <v-time-picker
+            <!-- <v-time-picker
               v-if="showMenu"
               v-model="pickerValue"
               ref="picker"
@@ -52,7 +52,7 @@
               :max="maxTime"
               :use-seconds="useSeconds"
               :format="ampm ? 'ampm' : '24hr'"
-            >
+            > -->
               <v-btn text @click="clear"> {{ clearLabel }} </v-btn>
               <v-spacer></v-spacer>
               <v-btn text @click="showMenu = false">
@@ -82,7 +82,7 @@ import {
   rendererProps,
   RendererProps,
   useJsonFormsControl,
-} from '@jsonforms/vue2';
+} from '@jsonforms/vue';
 import { VueMaskDirective as Mask } from 'v-mask';
 import {
   VBtn,
@@ -91,8 +91,8 @@ import {
   VMenu,
   VSpacer,
   VTextField,
-  VTimePicker,
-} from 'vuetify/lib';
+//   VTimePicker,
+} from 'vuetify/components';
 import { parseDateTime, useTranslator, useVuetifyControl } from '../util';
 import { default as ControlWrapper } from './ControlWrapper.vue';
 import { DisabledIconFocus } from './directives';
@@ -119,7 +119,7 @@ const controlRenderer = defineComponent({
     VHover,
     VTextField,
     VMenu,
-    VTimePicker,
+    // VTimePicker,
     VIcon,
     VSpacer,
     VBtn,

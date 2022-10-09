@@ -4,6 +4,8 @@ import typescript from 'rollup-plugin-typescript2';
 import resolve from '@rollup/plugin-node-resolve';
 import cleanup from 'rollup-plugin-cleanup';
 import visualizer from 'rollup-plugin-visualizer';
+// import scss from 'rollup-plugin-scss';
+import css from 'rollup-plugin-css-only';
 
 import packageJson from './package.json';
 
@@ -13,7 +15,7 @@ const baseConfig = {
     ...Object.keys(packageJson.dependencies),
     ...Object.keys(packageJson.peerDependencies),
     /^lodash\/.*/,
-    'vuetify/lib',
+    'vuetify/components',
     '@mdi/font',
     /^dayjs\/.*/,
   ],
@@ -51,6 +53,7 @@ const buildFormats = [
       }),
       cleanup({ extensions: ['js', 'ts', 'jsx', 'tsx', 'vue'] }),
       visualizer(),
+      css(),
     ],
   },
   {
@@ -86,6 +89,7 @@ const buildFormats = [
         babelHelpers: 'bundled',
       }),
       cleanup({ extensions: ['js', 'ts', 'jsx', 'tsx', 'vue'] }),
+      css(),
     ],
   },
 ];

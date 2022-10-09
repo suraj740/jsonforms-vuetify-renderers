@@ -53,11 +53,11 @@ import {
   rendererProps,
   useJsonFormsControl,
   RendererProps,
-} from '@jsonforms/vue2';
+} from '@jsonforms/vue';
 import { default as ControlWrapper } from './ControlWrapper.vue';
 import { useVuetifyControl } from '../util';
-import { VHover, VCombobox } from 'vuetify/lib';
-import { DisabledIconFocus } from './directives';
+import { VHover, VCombobox } from 'vuetify/components';
+// import { DisabledIconFocus } from './directives';
 
 const controlRenderer = defineComponent({
   name: 'anyof-string-or-enum-control-renderer',
@@ -67,7 +67,7 @@ const controlRenderer = defineComponent({
     VCombobox,
   },
   directives: {
-    DisabledIconFocus,
+    // DisabledIconFocus,
   },
   props: {
     ...rendererProps<ControlElement>(),

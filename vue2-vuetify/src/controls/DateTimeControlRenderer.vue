@@ -131,16 +131,16 @@ import {
   rendererProps,
   RendererProps,
   useJsonFormsControl,
-} from '@jsonforms/vue2';
+} from '@jsonforms/vue';
 import {
   VBtn,
-  VDatePicker,
+//   VDatePicker,
   VHover,
   VIcon,
   VMenu,
   VSpacer,
   VTextField,
-  VTimePicker,
+//   VTimePicker,
   VRow,
   VCol,
   VCard,
@@ -148,8 +148,8 @@ import {
   VCardActions,
   VTabs,
   VTab,
-  VTabItem,
-} from 'vuetify/lib';
+//   VTabItem,
+} from 'vuetify/components';
 import { parseDateTime, useTranslator, useVuetifyControl } from '../util';
 import { default as ControlWrapper } from './ControlWrapper.vue';
 import { DisabledIconFocus } from './directives';
@@ -176,8 +176,8 @@ const controlRenderer = defineComponent({
   components: {
     ControlWrapper,
     VBtn,
-    VDatePicker,
-    VTimePicker,
+    // VDatePicker,
+    // VTimePicker,
     VHover,
     VIcon,
     VMenu,
@@ -190,7 +190,7 @@ const controlRenderer = defineComponent({
     VCardActions,
     VTabs,
     VTab,
-    VTabItem,
+    // VTabItem,
   },
   directives: { DisabledIconFocus, Mask },
   props: {

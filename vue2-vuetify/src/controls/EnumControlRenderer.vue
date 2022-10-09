@@ -44,11 +44,11 @@ import {
   rendererProps,
   useJsonFormsEnumControl,
   RendererProps,
-} from '@jsonforms/vue2';
+} from '@jsonforms/vue';
 import { default as ControlWrapper } from './ControlWrapper.vue';
 import { useVuetifyControl } from '../util';
-import { VSelect, VHover } from 'vuetify/lib';
-import { DisabledIconFocus } from './directives';
+import { VSelect, VHover } from 'vuetify/components';
+// import { DisabledIconFocus } from './directives';
 
 const controlRenderer = defineComponent({
   name: 'enum-control-renderer',
@@ -58,7 +58,7 @@ const controlRenderer = defineComponent({
     VHover,
   },
   directives: {
-    DisabledIconFocus,
+    // DisabledIconFocus,
   },
   props: {
     ...rendererProps<ControlElement>(),

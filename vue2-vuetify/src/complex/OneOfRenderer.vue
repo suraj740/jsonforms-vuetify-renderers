@@ -16,8 +16,8 @@
       </v-tab>
     </v-tabs>
 
-    <v-tabs-items v-model="selectedIndex">
-      <v-tab-item
+    <v-window v-model="selectedIndex">
+      <v-window-item
         v-for="(oneOfRenderInfo, oneOfIndex) in oneOfRenderInfos"
         :key="`${control.path}-${oneOfIndex}`"
       >
@@ -30,8 +30,8 @@
           :cells="control.cells"
           :enabled="control.enabled"
         />
-      </v-tab-item>
-    </v-tabs-items>
+      </v-window-item>
+    </v-window>
 
     <v-dialog v-model="dialog" persistent max-width="600" @keydown.esc="cancel">
       <v-card>
@@ -68,7 +68,7 @@ import {
   rendererProps,
   RendererProps,
   useJsonFormsOneOfControl,
-} from '@jsonforms/vue2';
+} from '@jsonforms/vue';
 import {
   VDialog,
   VCard,
@@ -79,9 +79,9 @@ import {
   VBtn,
   VTabs,
   VTab,
-  VTabsItems,
-  VTabItem,
-} from 'vuetify/lib';
+  VWindow,
+  VWindowItem,
+} from 'vuetify/components';
 import { defineComponent, ref } from 'vue';
 import { useVuetifyControl } from '../util';
 import { CombinatorProperties } from './components';
@@ -101,8 +101,8 @@ const controlRenderer = defineComponent({
     VBtn,
     VTabs,
     VTab,
-    VTabsItems,
-    VTabItem,
+    VWindow,
+    VWindowItem,
   },
   props: {
     ...rendererProps<ControlElement>(),

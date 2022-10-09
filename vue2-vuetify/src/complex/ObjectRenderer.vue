@@ -30,7 +30,7 @@ import {
   rendererProps,
   RendererProps,
   useJsonFormsControlWithDetail,
-} from '@jsonforms/vue2';
+} from '@jsonforms/vue';
 import { defineComponent } from 'vue';
 import { useNested, useVuetifyControl } from '../util';
 

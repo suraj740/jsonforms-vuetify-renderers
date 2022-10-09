@@ -82,7 +82,7 @@ import {
   rendererProps,
   RendererProps,
   useJsonFormsControl,
-} from '@jsonforms/vue2';
+} from '@jsonforms/vue';
 import dayjs from 'dayjs';
 import {
   VBtn,
@@ -92,7 +92,7 @@ import {
   VMenu,
   VSpacer,
   VTextField,
-} from 'vuetify/lib';
+} from 'vuetify/components';
 import { parseDateTime, useTranslator, useVuetifyControl } from '../util';
 import { default as ControlWrapper } from './ControlWrapper.vue';
 import { DisabledIconFocus } from './directives';

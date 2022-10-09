@@ -52,11 +52,11 @@ import {
   rendererProps,
   useJsonFormsControl,
   RendererProps,
-} from '@jsonforms/vue2';
+} from '@jsonforms/vue';
 import { default as ControlWrapper } from './ControlWrapper.vue';
 import { useVuetifyControl } from '../util';
-import { VHover, VTextarea } from 'vuetify/lib';
-import { DisabledIconFocus } from './directives';
+import { VHover, VTextarea } from 'vuetify/components';
+// import { DisabledIconFocus } from './directives';
 
 const controlRenderer = defineComponent({
   name: 'multi-string-control-renderer',
@@ -66,7 +66,7 @@ const controlRenderer = defineComponent({
     VTextarea,
   },
   directives: {
-    DisabledIconFocus,
+    // DisabledIconFocus,
   },
   props: {
     ...rendererProps<ControlElement>(),

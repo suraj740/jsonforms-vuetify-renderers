@@ -144,7 +144,7 @@ import {
   rendererProps,
   useJsonFormsLayout,
   RendererProps,
-} from '@jsonforms/vue2';
+} from '@jsonforms/vue';
 import { useAjv, useTranslator, useVuetifyLayout } from '../util';
 import {
   VStepper,
@@ -157,7 +157,7 @@ import {
   VCard,
   VCardActions,
   VBtn,
-} from 'vuetify/lib';
+} from 'vuetify/components';
 
 const layoutRenderer = defineComponent({
   name: 'categorization-stepper-renderer',

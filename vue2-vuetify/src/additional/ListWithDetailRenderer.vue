@@ -212,7 +212,7 @@ import {
   rendererProps,
   RendererProps,
   useJsonFormsArrayControl,
-} from '@jsonforms/vue2';
+} from '@jsonforms/vue';
 import { useVuetifyArrayControl } from '../util';
 import {
   VList,
@@ -234,10 +234,10 @@ import {
   VSpacer,
   VExpansionPanels,
   VExpansionPanel,
-  VExpansionPanelHeader,
-  VExpansionPanelContent,
-  VVirtualScroll,
-} from 'vuetify/lib';
+  VExpansionPanelTitle,
+  VExpansionPanelText,
+//   VVirtualScroll,
+} from 'vuetify/components';
 import { ValidationIcon, ValidationBadge } from '../controls/components/index';
 import { ErrorObject } from 'ajv';
 
@@ -263,10 +263,10 @@ const controlRenderer = defineComponent({
     VSpacer,
     VExpansionPanels,
     VExpansionPanel,
-    VExpansionPanelHeader,
-    VExpansionPanelContent,
+    VExpansionPanelTitle,
+    VExpansionPanelText,
     VContainer,
-    VVirtualScroll,
+    // VVirtualScroll,
     ValidationIcon,
     ValidationBadge,
   },
@@ -325,7 +325,7 @@ const controlRenderer = defineComponent({
       this.removeItems?.(this.control.path, toDelete)();
     },
     childErrors(index: number): ErrorObject[] {
-      return this.control.childErrors.filter((e) =>
+      return this.control.childErrors.filter((e:any) =>
         e.instancePath.startsWith(
           this.composePaths(this.control.path, `${index}`)
         )
