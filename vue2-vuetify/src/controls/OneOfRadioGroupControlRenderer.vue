@@ -19,8 +19,8 @@
       :required="control.required"
       :error-messages="control.errors"
       v-bind="vuetifyProps('v-radio-group')"
-      :value="control.data"
-      @change="onChange"
+      :model-value="control.data"
+      @update:modelValue="onChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
     >
