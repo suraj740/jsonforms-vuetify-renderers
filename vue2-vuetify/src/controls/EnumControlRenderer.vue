@@ -7,7 +7,6 @@
   >
     <v-hover v-slot="{ hover }">
       <v-select
-        
         :id="control.id + '-input'"
         :class="styles.control.input"
         :disabled="!control.enabled"
@@ -19,12 +18,12 @@
         :required="control.required"
         :error-messages="control.errors"
         :clearable="hover"
-        :value="control.data"
+        :model-value="control.data"
         :items="control.options"
-        item-text="label"
+        item-title="label"
         item-value="value"
         v-bind="vuetifyProps('v-select')"
-        @change="onChange"
+        @update:modelValue="onChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
       />

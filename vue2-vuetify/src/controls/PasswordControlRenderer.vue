@@ -19,7 +19,7 @@
       :persistent-hint="persistentHint()"
       :required="control.required"
       :error-messages="control.errors"
-      :value="control.data"
+      :model-value="control.data"
       :maxlength="
         appliedOptions.restrict ? control.schema.maxLength : undefined
       "
