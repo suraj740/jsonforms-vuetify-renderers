@@ -17,9 +17,9 @@
       :required="control.required"
       :error-messages="control.errors"
       :indeterminate="control.data === undefined"
-      :value="control.data"
+      :model-value="control.data"
       v-bind="vuetifyProps('v-checkbox')"
-      @change="onChange"
+      @update:modelValue="onChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
     />

@@ -16,9 +16,9 @@
       :persistent-hint="persistentHint()"
       :required="control.required"
       :error-messages="control.errors"
-      :value="control.data"
+      :model-value="control.data"
       v-bind="vuetifyProps('v-switch')"
-      @change="onChange"
+      @update:modelValue="onChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
     />
