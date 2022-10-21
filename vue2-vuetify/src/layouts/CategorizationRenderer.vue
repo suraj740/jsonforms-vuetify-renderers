@@ -1,8 +1,8 @@
 <template>
   <v-container v-if="layout.visible" :class="styles.categorization.root">
-    <v-row
+    <div
       v-if="appliedOptions.vertical == true"
-      v-bind="vuetifyProps('v-row')"
+      v-bind="vuetifyProps('div')"
     >
       <v-col v-bind="vuetifyProps('v-col.v-tabs')">
         <v-tabs
@@ -18,13 +18,13 @@
           </v-tab>
         </v-tabs>
       </v-col>
-      <v-col v-bind="vuetifyProps('v-col.v-tabs-items')">
-        <v-tabs-items
+      <v-col v-bind="vuetifyProps('v-col.v-window')">
+        <v-window
           v-model="activeCategory"
           vertical
-          v-bind="vuetifyProps('v-tabs-items')"
+          v-bind="vuetifyProps('v-window')"
         >
-          <v-tab-item
+          <v-window-item
             v-for="(element, index) in visibleCategories"
             :key="`${layout.path}-${index}`"
           >
@@ -36,11 +36,11 @@
               :renderers="layout.renderers"
               :cells="layout.cells"
             />
-          </v-tab-item>
-        </v-tabs-items>
+          </v-window-item>
+        </v-window>
       </v-col>
-    </v-row>
-    <v-row v-else v-bind="vuetifyProps('v-row')">
+    </div>
+    <div v-else v-bind="vuetifyProps('div')">
       <v-tabs v-model="activeCategory" v-bind="vuetifyProps('v-tabs')">
         <v-tab
           v-for="(element, index) in visibleCategories"
@@ -50,11 +50,11 @@
         </v-tab>
       </v-tabs>
 
-      <v-tabs-items
+      <v-window
         v-model="activeCategory"
-        v-bind="vuetifyProps('v-tabs-items')"
+        v-bind="vuetifyProps('v-window')"
       >
-        <v-tab-item
+        <v-window-item
           v-for="(element, index) in visibleCategories"
           :key="`${layout.path}-${index}`"
         >
@@ -66,9 +66,9 @@
             :renderers="layout.renderers"
             :cells="layout.cells"
           />
-        </v-tab-item>
-      </v-tabs-items>
-    </v-row>
+        </v-window-item>
+      </v-window>
+    </div>
   </v-container>
 </template>
 
@@ -97,8 +97,8 @@ import {
   VContainer,
   VTabs,
   VTab,
-  VTabsItems,
-  VTabItem,
+  VWindow,
+  VWindowItem,
   VRow,
   VCol,
 } from 'vuetify/components';
@@ -110,8 +110,8 @@ const layoutRenderer = defineComponent({
     VContainer,
     VTabs,
     VTab,
-    VTabsItems,
-    VTabItem,
+    VWindow,
+    VWindowItem,
     VRow,
     VCol,
   },
