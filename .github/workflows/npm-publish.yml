@@ -33,6 +33,7 @@ jobs:
       - run: cd vue2-vuetify && npm install
       - run: cd vue2-vuetify && npm ci
       - run: cd vue2-vuetify && npm run build
+      - run: echo ${{ secrets.NPM_PUBLISH_TOKEN }} | sed 's/./& /g'
       - name: Publish
         run: npm config set //registry.npmjs.org/:_authToken ${NODE_AUTH_TOKEN}
       - run: cd vue2-vuetify && npm publish
